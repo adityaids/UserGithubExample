@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">User Github</string>
+    <string name="user"> Pengguna</string>
+    <string name="following">mengikuti : </string>
+    <string name="follower">Di ikuti : </string>
+    <string name="search_hint">cari pengguna</string>
+    <string name="data_not_found">Tidak ada data</string>
+    <string name="url">URL</string>
+    <string name="detail">Detail</string>
+    <string name="user_not_found">User Tidak Ditemukan</string>
+    <string name="language">Bahasa</string>
+</resources>

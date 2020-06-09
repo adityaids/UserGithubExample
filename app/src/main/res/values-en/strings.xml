@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">User Github</string>
+    <string name="user">User</string>
+    <string name="following">Following : </string>
+    <string name="follower">Follower : </string>
+    <string name="search_hint">Search User</string>
+    <string name="data_not_found">There is no data</string>
+    <string name="url">URL</string>
+    <string name="detail">Detail</string>
+    <string name="user_not_found">User not found</string>
+    <string name="language">Bahasa</string>
+</resources>
