@@ -1,6 +1,7 @@
 package com.aditya.usergithub.view;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -18,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aditya.usergithub.BuildConfig;
 import com.aditya.usergithub.R;
 import com.aditya.usergithub.model.User;
 import com.aditya.usergithub.model.UserDetail;
@@ -39,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rv;
     private MainViewModel mainViewModel;
     private UserAdapter userAdapter;
-    private final String EXTRA_AUTH = "5ac297774d6c88df8283a5355c843dcc541fccb7";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 showLoading(true);
                 String url = "https://api.github.com/search/users?q=" + query;
-                mainViewModel.setSearchQuery(url, EXTRA_AUTH);
+                mainViewModel.setSearchQuery(url);
                 return false;
             }
 
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     private void setDataUser(final String url) {
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("Authorization", "token " + EXTRA_AUTH);
+        client.addHeader("Authorization", "token " + BuildConfig.API_KEY);
         client.addHeader("User-Agent", "request");
         client.get(url, new AsyncHttpResponseHandler() {
             @Override

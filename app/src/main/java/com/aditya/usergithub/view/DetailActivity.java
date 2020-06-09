@@ -20,6 +20,7 @@ public class DetailActivity extends AppCompatActivity {
     public static final String ARG_USERNAME = "args_username";
     private ImageView imgAvatar;
     private TextView tvUsername, tvUrl, tvCompany, tvLocation, tvRepo;
+    private String userName, avatarUrl, userUrl, company, location, repo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +40,14 @@ public class DetailActivity extends AppCompatActivity {
         relativeLayout.animate().alpha(1).setDuration(900).setStartDelay(600);
 
         UserDetail userDetail = getIntent().getParcelableExtra(EXTRA_USER_DETAIL);
-        String userName = userDetail.getUserName();
-        String avatarUrl = userDetail.getAvatarUrl();
-        String userUrl = userDetail.getUserUrl();
-        String company = userDetail.getCompany();
-        String location = userDetail.getLocation();
-        String repo = userDetail.getRepo();
+        if (userDetail != null) {
+            userName = userDetail.getUserName();
+            avatarUrl = userDetail.getAvatarUrl();
+            userUrl = userDetail.getUserUrl();
+            company = userDetail.getCompany();
+            location = userDetail.getLocation();
+            repo = userDetail.getRepo();
+        }
 
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), this, userName);
         ViewPager viewPager = findViewById(R.id.view_pager);

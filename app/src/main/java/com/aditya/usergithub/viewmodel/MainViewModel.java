@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.aditya.usergithub.BuildConfig;
 import com.aditya.usergithub.model.User;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -23,12 +24,12 @@ public class MainViewModel extends ViewModel {
     private MutableLiveData<ArrayList<User>> listUser = new MutableLiveData<>();
 
 
-    public void setSearchQuery(final String query, final String EXTRA_AUTH) {
+    public void setSearchQuery(final String query) {
 
         final ArrayList<User> list = new ArrayList<>();
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("Authorization", "token " + EXTRA_AUTH);
+        client.addHeader("Authorization", "token " + BuildConfig.API_KEY);
         client.addHeader("User-Agent", "request");
         client.get(query, new AsyncHttpResponseHandler() {
             @Override

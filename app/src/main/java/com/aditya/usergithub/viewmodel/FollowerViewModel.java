@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.aditya.usergithub.BuildConfig;
 import com.aditya.usergithub.model.User;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -30,7 +31,7 @@ public class FollowerViewModel extends ViewModel {
 
         AsyncHttpClient client = new AsyncHttpClient();
         String EXTRA_AUTH = "5ac297774d6c88df8283a5355c843dcc541fccb7";
-        client.addHeader("Authorization", "token " + EXTRA_AUTH);
+        client.addHeader("Authorization", "token " + BuildConfig.API_KEY);
         client.addHeader("User-Agent", "request");
         client.get(query, new AsyncHttpResponseHandler() {
             @Override
