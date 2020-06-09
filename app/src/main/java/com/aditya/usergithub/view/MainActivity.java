@@ -92,7 +92,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClicked(User data) {
                 showLoading(true);
-                setDataUser(data.getDetailUrl());
+                mainViewModel.setDataUser(data.getDetailUrl());
+            }
+        });
+
+        mainViewModel.getDetailUser().observe(this, new Observer<UserDetail>() {
+            @Override
+            public void onChanged(UserDetail userDetail) {
+                showLoading(false);
+                Intent detailIntent = new Intent(MainActivity.this, DetailActivity.class);
+                detailIntent.putExtra(DetailActivity.EXTRA_USER_DETAIL, userDetail);
+                startActivity(detailIntent);
             }
         });
     }
@@ -103,56 +113,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             pgsBar.setVisibility(View.GONE);
         }
-    }
-
-    private void setDataUser(final String url) {
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("Authorization", "token " + BuildConfig.API_KEY);
-        client.addHeader("User-Agent", "request");
-        client.get(url, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                UserDetail userDetail = new UserDetail();
-                try {
-                    String result = new String(responseBody);
-                    JSONObject responseJSON = new JSONObject(result);
-                    userDetail.setUserName(responseJSON.getString("login"));
-                    userDetail.setUserUrl(responseJSON.getString("html_url"));
-                    userDetail.setAvatarUrl(responseJSON.getString("avatar_url"));
-                    userDetail.setCompany(responseJSON.getString("company"));
-                    userDetail.setLocation(responseJSON.getString("location"));
-                    userDetail.setRepo(responseJSON.getString("repos_url"));
-                    showLoading(false);
-                    Intent detailIntent = new Intent(MainActivity.this, DetailActivity.class);
-                    detailIntent.putExtra(DetailActivity.EXTRA_USER_DETAIL, userDetail);
-                    startActivity(detailIntent);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                String errorMessage;
-
-                switch (statusCode) {
-                    case 401:
-                        errorMessage = statusCode + " : Bad Request";
-                        break;
-                    case 403:
-                        errorMessage = statusCode + " : Forbidden";
-                        break;
-                    case 404:
-                        errorMessage = statusCode + " : Not Found";
-                        break;
-                    default:
-                        errorMessage = statusCode + " : " + error.getMessage();
-                        break;
-                }
-                Log.d("onFailure SearchUser : ", errorMessage);
-            }
-        });
     }
 
     @Override
