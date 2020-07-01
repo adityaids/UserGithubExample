@@ -10,4 +10,6 @@
     <string name="detail">Detail</string>
     <string name="user_not_found">User not found</string>
     <string name="language">Bahasa</string>
+    <string name="favorit">Favorit</string>
+    <string name="notification">user github just add an user into favorit list</string>
 </resources>

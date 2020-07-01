@@ -1,8 +1,25 @@
 package com.aditya.usergithub.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class User {
 
-    private String userName, detailUrl, avatarUrl, htmlUrl;
+    @SerializedName("login")
+    @Expose
+    private String userName;
+
+    @SerializedName("url")
+    @Expose
+    private String detailUrl;
+
+    @SerializedName("avatar_url")
+    @Expose
+    private String avatarUrl;
+
+    @SerializedName("html_url")
+    @Expose
+    private String htmlUrl;
 
     public String getUserName() {
         return userName;

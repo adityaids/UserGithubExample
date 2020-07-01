@@ -46,7 +46,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 .into(holder.imgAvatar);
         holder.tvUserName.setText(users.getUserName());
         holder.tvUrl.setText(users.getHtmlUrl());
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -9,4 +9,9 @@
     <string name="detail">Detail</string>
     <string name="user_not_found">User Tidak Ditemukan</string>
     <string name="language">Bahasa</string>
+    <string name="favorit">Favorit</string>
+    <string name="notification">user github baru saja menambahkan user ke dalam daftar favorit</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

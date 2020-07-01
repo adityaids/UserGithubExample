@@ -11,9 +11,12 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,6 +29,7 @@ import com.aditya.usergithub.model.UserDetail;
 import com.aditya.usergithub.viewmodel.MainViewModel;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rv;
     private MainViewModel mainViewModel;
     private UserAdapter userAdapter;
+    private RecyclerTouchListener onTouchListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +63,23 @@ public class MainActivity extends AppCompatActivity {
         userAdapter.notifyDataSetChanged();
         rv.setAdapter(userAdapter);
 
+        onTouchListener = new RecyclerTouchListener(this, rv);
+        onTouchListener
+                .setSwipeOptionViews(R.id.swipe_favorit)
+                .setSwipeable(R.id.fg, R.id.bg, new RecyclerTouchListener.OnSwipeOptionsClickListener() {
+                    @Override
+                    public void onSwipeOptionClicked(int viewID, int position) {
+                        if (viewID == R.id.swipe_favorit) {
+                            Toast.makeText(getApplicationContext(), "touch on "+ (position+1), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 showLoading(true);
-                String url = "https://api.github.com/search/users?q=" + query;
-                mainViewModel.setSearchQuery(url);
+                mainViewModel.setSearchQuery(query);
                 return false;
             }
 
@@ -123,10 +139,28 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.change_language) {
-            Intent intent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
-            startActivity(intent);
+        switch (item.getItemId()){
+            case R.id.change_language:
+                Intent intent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
+                startActivity(intent);
+                break;
+            case R.id.favorit_menu:
+                intent = new Intent(MainActivity.this, FavoritActivity.class);
+                startActivity(intent);
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        rv.removeOnItemTouchListener(onTouchListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        rv.addOnItemTouchListener(onTouchListener);
     }
 }

@@ -8,4 +8,10 @@
         android:icon="@drawable/ic_settings_white"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/favorit_menu"
+        android:title="@string/favorit"
+        android:icon="@drawable/ic_favorite_border"
+        app:showAsAction="always"/>
+
 </menu>

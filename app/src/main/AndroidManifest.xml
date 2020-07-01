@@ -4,16 +4,21 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-
     <application
         android:allowBackup="true"
+        android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:fullBackupContent="false">
+        android:usesCleartextTraffic="true">
+        <provider
+            android:name=".provider.FavoritProvider"
+            android:authorities="com.aditya.usergithub"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".view.MainActivity"
             android:launchMode="singleTop">
@@ -23,7 +28,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".view.DetailActivity"
             android:label="@string/detail"
@@ -31,6 +35,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="view.MainActivity" />
+        </activity>
+        <activity
+            android:name=".view.FavoritActivity"
+            android:label="Favorit User"
+            android:parentActivityName=".view.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.MainActivity"/>
         </activity>
     </application>
 
