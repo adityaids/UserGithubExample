@@ -3,6 +3,8 @@
     package="com.aditya.usergithub">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <permission android:name="com.aditya.usergithub.READ_DATABASE"/>
+    <permission android:name="com.aditya.usergithub.WRITE_DATABASE"/>
 
     <application
         android:allowBackup="true"
@@ -22,7 +24,9 @@
             android:name=".provider.FavoritProvider"
             android:authorities="com.aditya.usergithub"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            android:readPermission="com.aditya.usergithub.READ_DATABASE"
+            android:writePermission="com.aditya.usergithub.WRITE_DATABASE"/>
 
         <activity
             android:name=".view.MainActivity"

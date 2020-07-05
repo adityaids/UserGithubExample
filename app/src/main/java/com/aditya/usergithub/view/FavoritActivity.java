@@ -8,14 +8,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aditya.usergithub.R;
+import com.aditya.usergithub.broadcast.ReminderBroadcast;
 import com.aditya.usergithub.model.FavoritModel;
+import com.aditya.usergithub.preference.AppPreference;
 import com.aditya.usergithub.viewmodel.FavoritViewModel;
 import com.aditya.usergithub.viewmodel.MainViewModel;
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener;
+import com.takusemba.spotlight.SimpleTarget;
+import com.takusemba.spotlight.Spotlight;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -65,6 +70,14 @@ public class FavoritActivity extends AppCompatActivity {
                 }
             }
         });
+
+        AppPreference appPreference = new AppPreference(this);
+        Boolean firstFavorit = appPreference.getFirstFavorit();
+
+        if (firstFavorit) {
+            appPreference.setFirstRunFavorit(false);
+            showSpotLight();
+        }
     }
 
     @Override
@@ -77,5 +90,28 @@ public class FavoritActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         rv.removeOnItemTouchListener(onTouchListener);
+    }
+
+    private void showSpotLight() {
+
+        SimpleTarget simpleTarget = new SimpleTarget.Builder(this)
+                .setPoint(535, 280)
+                .setRadius(640f)
+                .setTitle(getString(R.string.delete))
+                .setDescription(getString(R.string.delete_desc))
+                .build();
+
+        SimpleTarget simpleTarget1 = new SimpleTarget.Builder(this)
+                .setPoint(535, 280)
+                .setRadius(640f)
+                .setTitle(getString(R.string.how))
+                .setDescription(getString(R.string.how_desc))
+                .build();
+
+        Spotlight.with(FavoritActivity.this)
+                .setDuration(1000L)
+                .setAnimation(new DecelerateInterpolator(2f))
+                .setTargets(simpleTarget, simpleTarget1)
+                .start();
     }
 }

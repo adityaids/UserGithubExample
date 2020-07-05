@@ -7,6 +7,7 @@ public class AppPreference {
     private static final String PREFS_NAME = "AppPref";
     private static final String APP_FIRST_RUN = "app_first_run";
     private static final String SETTING_NOTIF = "setting_notif";
+    private static final String FIRST_FAVORIT = "first_favorit";
     private final SharedPreferences prefs;
 
     public AppPreference(Context context) {
@@ -16,6 +17,12 @@ public class AppPreference {
     public void setFirstRun(Boolean input) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean(APP_FIRST_RUN, input);
+        editor.apply();
+    }
+
+    public void setFirstRunFavorit(Boolean input) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(FIRST_FAVORIT, input);
         editor.apply();
     }
 
@@ -31,5 +38,9 @@ public class AppPreference {
 
     public Boolean getNotifState() {
         return prefs.getBoolean(SETTING_NOTIF, true);
+    }
+
+    public Boolean getFirstFavorit() {
+        return prefs.getBoolean(FIRST_FAVORIT, true);
     }
 }

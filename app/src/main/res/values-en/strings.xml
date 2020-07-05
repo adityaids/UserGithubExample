@@ -11,17 +11,22 @@
     <string name="user_not_found">User not found</string>
     <string name="language">Change Language</string>
     <string name="favorit">Favorit</string>
-    <string name="notification_reminder">user github just add an user into favorit list</string>
     <string name="added_new_feature">I have added new feature on this app</string>
     <string name="let_me_show_you">Let me show you</string>
-    <string name="swipe_menu">Swipe to the left to see the button</string>
-    <string name="klik_favorit_button">Press the red heart icon to add the user into favorit list</string>
-    <string name="klik_favorit_menu">Press the favorit menu icon to see list user you have added</string>
     <string name="check_new">Lets check new user</string>
     <string name="anda_belum_menambahkan_pengguna_ke_favorit">You havent added user into favorit</string>
     <string name="is_added">User added into favorit</string>
     <string name="is_remove">User remove from favorit</string>
     <string name="notif_on">Turn on Notification</string>
     <string name="notif_off">Turn off Notification</string>
+    <string name="easy">Its Easy !</string>
+    <string name="do_search">"Do Search and swipe left at the view users result"</string>
+    <string name="find_button">"When you see an icon love you can add a user to favorit list with just tap on it"</string>
+    <string name="tap_again">"To delete it just tap again the love icon and the user will remove from favorit list"</string>
+    <string name="show_favorit_menu">"After added a user you can find it on icon favorit in menu toolbar"</string>
+    <string name="delete">Delete a user</string>
+    <string name="how">How ?</string>
+    <string name="delete_desc">You can remove user too from here</string>
+    <string name="how_desc">just swipe to left the user view and find the remove icon and tap the icon</string>
     <string name="notification">Notification</string>
 </resources>

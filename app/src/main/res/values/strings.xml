@@ -10,17 +10,22 @@
     <string name="user_not_found">User Tidak Ditemukan</string>
     <string name="language">Ubah Bahasa</string>
     <string name="favorit">Favorit</string>
-    <string name="notification_reminder">user github baru saja menambahkan user ke dalam daftar favorit</string>
     <string name="added_new_feature">Saya menambahkan fitur baru di aplikasi ini</string>
     <string name="let_me_show_you">Mari saya tunjukan</string>
-    <string name="swipe_menu">Geser ke kiri untuk melihat tombol</string>
-    <string name="klik_favorit_button">Tekan icon hati berwarna merah untuk menambahkan pada daftar favorit</string>
-    <string name="klik_favorit_menu">Tekan icon hati untuk melihat daftar user yang telah anda tambahkan</string>
     <string name="check_new">ayo cek pengguna baru</string>
     <string name="anda_belum_menambahkan_pengguna_ke_favorit">Anda belum menambahkan pengguna ke favorit</string>
     <string name="is_added">pengguna ditambahkan ke daftar favorit</string>
     <string name="is_remove">pengguna sudah di hapus dari favorit</string>
     <string name="notif_on">Nyalakan pemberitahuan</string>
     <string name="notif_off">Matikan pemberitahuan</string>
+    <string name="easy">Mudah saja !</string>
+    <string name="do_search">Lakukan Pencarian dan geser ke kanan pada tampilan pengguna hasil pencarian</string>
+    <string name="find_button">Saat anda melihat icon love anda dapat menambahkan pengguna ke daftar favorit dengan menekan icon love</string>
+    <string name="tap_again">Untuk menghapus cukup tekan kembali icon favorit untuk menghapus pengguna dari daftar favorit</string>
+    <string name="show_favorit_menu">Setelah Menambahkan user anda dapat melihat nya dengan menekan icon favorit pada menu toolbar</string>
+    <string name="delete">Menghapus Pengguna</string>
+    <string name="how">Caranya ?</string>
+    <string name="delete_desc">Anda juga dapat menghapus pengguna dari daftar favorit dari sini</string>
+    <string name="how_desc">Geser daftar Pengguna ke kiri dan anda akan menemukan icon hapus lalu tekan icon</string>
     <string name="notification">Pemberitahuan</string>
 </resources>

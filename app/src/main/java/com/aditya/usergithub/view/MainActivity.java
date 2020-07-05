@@ -157,37 +157,44 @@ public class MainActivity extends AppCompatActivity {
     private void showSpotLight() {
 
         SimpleTarget simpleTarget = new SimpleTarget.Builder(this)
-                .setPoint(535, 280) // position of the Target. setPoint(Point point), setPoint(View view) will work too.
-                .setRadius(640f) // radius of the Target
-                .setTitle(getString(R.string.added_new_feature)) // title
-                .setDescription(getString(R.string.let_me_show_you)) // description
+                .setPoint(535, 280)
+                .setRadius(640f)
+                .setTitle(getString(R.string.added_new_feature))
+                .setDescription(getString(R.string.let_me_show_you))
                 .build();
 
         SimpleTarget simpleTarget1 = new SimpleTarget.Builder(this)
-                .setPoint(535, 280) // position of the Target. setPoint(Point point), setPoint(View view) will work too.
-                .setRadius(640f) // radius of the Target
-                .setTitle("Its easy") // title
-                .setDescription("Search Someone and swipe left to see a button favorit") // description
+                .setPoint(535, 280)
+                .setRadius(640f)
+                .setTitle(getString(R.string.easy))
+                .setDescription(getString(R.string.do_search))
                 .build();
 
         SimpleTarget simpleTarget2 = new SimpleTarget.Builder(this)
-                .setPoint(535, 280) // position of the Target. setPoint(Point point), setPoint(View view) will work too.
-                .setRadius(640f) // radius of the Target
-                .setTitle("Favorit") // title
-                .setDescription("Saat anda melihat tombol love anda dapat menambahkan user ke favorit") // description
+                .setPoint(535, 280)
+                .setRadius(640f)
+                .setTitle(getString(R.string.favorit))
+                .setDescription(getString(R.string.find_button))
                 .build();
 
         SimpleTarget simpleTarget3 = new SimpleTarget.Builder(this)
-                .setPoint(900, 130) // position of the Target. setPoint(Point point), setPoint(View view) will work too.
-                .setRadius(50f) // radius of the Target
-                .setTitle("Favorit") // title
-                .setDescription("Setelah Menambahkan user anda dapat melihat nya dengan menekan menu favorit") // description
+                .setPoint(535, 280)
+                .setRadius(640f)
+                .setTitle(getString(R.string.favorit))
+                .setDescription(getString(R.string.tap_again))
+                .build();
+
+        SimpleTarget simpleTarget4 = new SimpleTarget.Builder(this)
+                .setPoint(900, 130)
+                .setRadius(50f)
+                .setTitle(getString(R.string.favorit))
+                .setDescription(getString(R.string.show_favorit_menu))
                 .build();
 
         Spotlight.with(MainActivity.this)
                 .setDuration(1000L)
                 .setAnimation(new DecelerateInterpolator(2f))
-                .setTargets(simpleTarget, simpleTarget1, simpleTarget2, simpleTarget3)
+                .setTargets(simpleTarget, simpleTarget1, simpleTarget2, simpleTarget3, simpleTarget4)
                 .start();
     }
 
