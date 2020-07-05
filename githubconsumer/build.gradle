@@ -3,15 +3,18 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
+
+
     defaultConfig {
-        applicationId "com.aditya.usergithub"
+        applicationId "com.aditya.githubconsumer"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "API_KEY", '"5ac297774d6c88df8283a5355c843dcc541fccb7"')
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -19,39 +22,26 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.2.0'
+
+
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'
-
-    implementation "androidx.room:room-runtime:2.2.0"
-    annotationProcessor "androidx.room:room-compiler:2.2.0"
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-
-    implementation 'com.nikhilpanju.recyclerviewenhanced:recyclerviewenhanced:1.1.0'
-
-    implementation 'com.github.takusemba:spotlight:1.0.1'
-
-    implementation 'com.airbnb.android:lottie:3.4.1'
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0-beta01"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.2.0-beta01"
 }
