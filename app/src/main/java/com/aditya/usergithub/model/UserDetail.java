@@ -3,9 +3,34 @@ package com.aditya.usergithub.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class UserDetail implements Parcelable {
 
-    private String userName, company, location, repo, avatarUrl, userUrl;
+    @SerializedName("login")
+    @Expose
+    private String userName;
+
+    @SerializedName("company")
+    @Expose
+    private String company;
+
+    @SerializedName("location")
+    @Expose
+    private String location;
+
+    @SerializedName("repos_url")
+    @Expose
+    private String repo;
+
+    @SerializedName("avatar_url")
+    @Expose
+    private String avatarUrl;
+
+    @SerializedName("html_url")
+    @Expose
+    private String userUrl;
 
     protected UserDetail(Parcel in) {
         userName = in.readString();

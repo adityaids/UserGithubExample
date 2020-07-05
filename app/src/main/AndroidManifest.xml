@@ -13,6 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <receiver
+            android:name=".broadcast.ReminderBroadcast"
+            android:enabled="true"
+            android:exported="true"></receiver>
+
         <provider
             android:name=".provider.FavoritProvider"
             android:authorities="com.aditya.usergithub"
@@ -42,7 +47,15 @@
             android:parentActivityName=".view.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.MainActivity"/>
+                android:value=".view.MainActivity" />
+        </activity>
+        <activity
+            android:name=".view.SettingActivity"
+            android:label="Setting"
+            android:parentActivityName=".view.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.MainActivity" />
         </activity>
     </application>
 

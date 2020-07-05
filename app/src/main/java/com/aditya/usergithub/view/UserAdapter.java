@@ -3,6 +3,9 @@ package com.aditya.usergithub.view;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aditya.usergithub.R;
 import com.aditya.usergithub.model.User;
 import com.bumptech.glide.Glide;
+import com.takusemba.spotlight.SimpleTarget;
+import com.takusemba.spotlight.Spotlight;
 
 import java.util.ArrayList;
 
@@ -20,13 +25,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     private ArrayList<User> listUsers = new ArrayList<>();
     private OnItemClickCallBack onItemClickCallBack;
 
-    public void setData(ArrayList<User> items) {
+    void setData(ArrayList<User> items) {
         listUsers.clear();
         listUsers.addAll(items);
         notifyDataSetChanged();
     }
 
-    public void setOnItemClickCallBack(OnItemClickCallBack onItemClickCallBack) {
+    void setOnItemClickCallBack(OnItemClickCallBack onItemClickCallBack) {
         this.onItemClickCallBack = onItemClickCallBack;
     }
 
@@ -46,6 +51,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 .into(holder.imgAvatar);
         holder.tvUserName.setText(users.getUserName());
         holder.tvUrl.setText(users.getHtmlUrl());
+        if (users.isFavorited()) {
+            holder.btnFavorite.setBackgroundResource(R.drawable.ic_favorite_fill);
+        } else {
+            holder.btnFavorite.setBackgroundResource(R.drawable.ic_favorite_border_red);
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,10 +70,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         return listUsers.size();
     }
 
-    public class UserViewHolder extends RecyclerView.ViewHolder {
+    class UserViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgAvatar;
         private TextView tvUserName;
         private TextView tvUrl;
+        private Button btnFavorite;
 
         UserViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,6 +82,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             imgAvatar = itemView.findViewById(R.id.user_image);
             tvUserName = itemView.findViewById(R.id.tv_user_name);
             tvUrl = itemView.findViewById(R.id.tv_user_url);
+            btnFavorite = itemView.findViewById(R.id.btn_favorit);
         }
     }
 

@@ -21,6 +21,16 @@ public class User {
     @Expose
     private String htmlUrl;
 
+    private boolean isFavorited;
+
+    public boolean isFavorited() {
+        return isFavorited;
+    }
+
+    public void setFavorited(boolean favorited) {
+        isFavorited = favorited;
+    }
+
     public String getUserName() {
         return userName;
     }

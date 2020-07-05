@@ -1,41 +1,44 @@
 package com.aditya.usergithub.viewmodel;
 
-import android.content.Intent;
+import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import com.aditya.usergithub.BuildConfig;
 import com.aditya.usergithub.api.ApiService;
+import com.aditya.usergithub.db.FavoritDao;
+import com.aditya.usergithub.db.FavoritDatabase;
+import com.aditya.usergithub.model.FavoritModel;
 import com.aditya.usergithub.model.User;
 import com.aditya.usergithub.model.UserDetail;
 import com.aditya.usergithub.model.UserList;
-import com.aditya.usergithub.view.DetailActivity;
-import com.aditya.usergithub.view.MainActivity;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
+import java.util.List;
 
-import cz.msebera.android.httpclient.Header;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainViewModel extends ViewModel {
+public class MainViewModel extends AndroidViewModel {
 
     private MutableLiveData<ArrayList<User>> listUser = new MutableLiveData<>();
     private MutableLiveData<UserDetail> userDetailModel = new MutableLiveData<>();
     private String url = "https://api.github.com/search/";
+    private FavoritDao mFavoritDao;
+    private FavoritDatabase db;
+    private LiveData<List<FavoritModel>> favorit;
+    private List<FavoritModel> favoritModels;
 
+    public MainViewModel(Application application) {
+        super(application);
+        db = FavoritDatabase.getInstance(application);
+        mFavoritDao = db.favoritDao();
+        favorit = mFavoritDao.getFavoritList();
+    }
 
     public void setSearchQuery(final String query) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -47,10 +50,8 @@ public class MainViewModel extends ViewModel {
         userListCall.enqueue(new Callback<UserList>() {
             @Override
             public void onResponse(Call<UserList> call, Response<UserList> response) {
-                if (response.body().getResultUser() != null) {
-                    listUser.postValue(response.body().getResultUser());
-                } else {
-                    return;
+                if (response.body()!= null) {
+                    check(response.body().getResultUser());
                 }
             }
 
@@ -61,51 +62,111 @@ public class MainViewModel extends ViewModel {
         });
     }
 
-    public void setDataUser(final String url) {
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("Authorization", "token " + BuildConfig.API_KEY);
-        client.addHeader("User-Agent", "request");
-        client.get(url, new AsyncHttpResponseHandler() {
+    public void setDataUser(final String detailUrl) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(url)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ApiService service = retrofit.create(ApiService.class);
+        Call<UserDetail> userDetailCall = service.getUserDetail(detailUrl);
+        userDetailCall.enqueue(new Callback<UserDetail>() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                UserDetail userDetail = new UserDetail();
-                try {
-                    String result = new String(responseBody);
-                    JSONObject responseJSON = new JSONObject(result);
-                    userDetail.setUserName(responseJSON.getString("login"));
-                    userDetail.setUserUrl(responseJSON.getString("html_url"));
-                    userDetail.setAvatarUrl(responseJSON.getString("avatar_url"));
-                    userDetail.setCompany(responseJSON.getString("company"));
-                    userDetail.setLocation(responseJSON.getString("location"));
-                    userDetail.setRepo(responseJSON.getString("repos_url"));
+            public void onResponse(Call<UserDetail> call, Response<UserDetail> response) {
+                if (response.body() != null) {
+                    UserDetail userDetail = new UserDetail();
+                    userDetail.setUserName(response.body().getUserName());
+                    userDetail.setAvatarUrl(response.body().getAvatarUrl());
+                    userDetail.setUserUrl(response.body().getUserUrl());
+                    userDetail.setRepo(response.body().getRepo());
+                    userDetail.setCompany(response.body().getCompany());
+                    userDetail.setLocation(response.body().getLocation());
                     userDetailModel.postValue(userDetail);
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                String errorMessage;
-
-                switch (statusCode) {
-                    case 401:
-                        errorMessage = statusCode + " : Bad Request";
-                        break;
-                    case 403:
-                        errorMessage = statusCode + " : Forbidden";
-                        break;
-                    case 404:
-                        errorMessage = statusCode + " : Not Found";
-                        break;
-                    default:
-                        errorMessage = statusCode + " : " + error.getMessage();
-                        break;
-                }
-                Log.d("onFailure SearchUser : ", errorMessage);
+            public void onFailure(Call<UserDetail> call, Throwable t) {
+                Log.d("MainActivity", "error loading from API");
             }
         });
+    }
+
+    public void insert(int position) {
+        ArrayList<User> userArrayList = new ArrayList<>();
+        if (listUser.getValue() != null) {
+            userArrayList.addAll(listUser.getValue());
+            FavoritModel favoritModel = new FavoritModel(userArrayList.get(position).getUserName(),
+                    userArrayList.get(position).getAvatarUrl(),
+                    userArrayList.get(position).getDetailUrl(),
+                    userArrayList.get(position).isFavorited());
+            if (!userArrayList.get(position).isFavorited()) {
+                FavoritDatabase.databaseWriteExecutor.execute(()->
+                        mFavoritDao.insert(favoritModel));
+                userArrayList.get(position).setFavorited(true);
+            }
+        }
+        listUser.postValue(userArrayList);
+    }
+
+    public void delete(int position) {
+        ArrayList<User> userArrayList = new ArrayList<>();
+        if (listUser.getValue() != null) {
+            userArrayList.addAll(listUser.getValue());
+            int index = favoritIndex(userArrayList.get(position).getUserName());
+            FavoritModel favoritModel = favorit.getValue().get(index);
+            if (userArrayList.get(position).isFavorited()) {
+                FavoritDatabase.databaseWriteExecutor.execute(()->
+                        mFavoritDao.delete(favoritModel));
+                userArrayList.get(position).setFavorited(false);
+            }
+        }
+        listUser.postValue(userArrayList);
+    }
+
+    private int favoritIndex(String value) {
+        ArrayList<User> userArrayList = new ArrayList<>();
+        if (listUser.getValue() != null) {
+            userArrayList.addAll(listUser.getValue());
+            for (int index = 0; index < favorit.getValue().size(); index++) {
+                if (favorit.getValue().get(index).getNama().equals(value)) {
+                    return index;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public boolean checkFavorit(int position) {
+        ArrayList<User> userArrayList = new ArrayList<>();
+        boolean isFavorit = false;
+        if (listUser.getValue() != null) {
+            userArrayList.addAll(listUser.getValue());
+            isFavorit = userArrayList.get(position).isFavorited();
+        }
+        return isFavorit;
+    }
+
+    private void check(ArrayList<User> users) {
+        boolean isFavorited;
+        ArrayList<User> userArrayList = new ArrayList<>();
+        for (int i = 0; i < users.size(); i++ ) {
+            String username = users.get(i).getUserName();
+            for (int j = 0; j < favoritModels.size(); j++) {
+                if (favoritModels.get(j).getNama().equals(username)) {
+                    isFavorited = true;
+                    users.get(i).setFavorited(isFavorited);
+                } else {
+                    isFavorited = false;
+                    users.get(i).setFavorited(isFavorited);
+                }
+            }
+            userArrayList.add(users.get(i));
+        }
+        listUser.postValue(userArrayList);
+    }
+
+    public void setFavoritModel(List<FavoritModel> favoritModel) {
+        this.favoritModels = favoritModel;
     }
 
     public LiveData<ArrayList<User>> getListUser() {
@@ -114,5 +175,9 @@ public class MainViewModel extends ViewModel {
 
     public LiveData<UserDetail> getDetailUser(){
         return userDetailModel;
+    }
+
+    public LiveData<List<FavoritModel>> getFavorit() {
+        return favorit;
     }
 }

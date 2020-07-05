@@ -7,7 +7,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.aditya.usergithub.BuildConfig;
+import com.aditya.usergithub.api.ApiService;
 import com.aditya.usergithub.model.User;
+import com.aditya.usergithub.model.UserList;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -18,62 +20,33 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FollowerViewModel extends ViewModel {
 
     private MutableLiveData<ArrayList<User>> listUser = new MutableLiveData<>();
 
     public void setShowFollower(final String username) {
-
-        final ArrayList<User> list = new ArrayList<>();
-        String EXTRA_QUERY_SEARCH_USER = "https://api.github.com/users/";
-        String query = EXTRA_QUERY_SEARCH_USER + username + "/followers";
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        String EXTRA_AUTH = "5ac297774d6c88df8283a5355c843dcc541fccb7";
-        client.addHeader("Authorization", "token " + BuildConfig.API_KEY);
-        client.addHeader("User-Agent", "request");
-        client.get(query, new AsyncHttpResponseHandler() {
+        String baseUrl = "https://api.github.com/users/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ApiService service = retrofit.create(ApiService.class);
+        Call<ArrayList<User>> userFollowCall = service.getFollower(username);
+        userFollowCall.enqueue(new Callback<ArrayList<User>>() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                try {
-                    String result = new String(responseBody);
-                    JSONArray listUserArray = new JSONArray(result);
-                    for (int i = 0; i < listUserArray.length(); i++) {
-                        JSONObject userObject = listUserArray.getJSONObject(i);
-                        User userData = new User();
-                        userData.setUserName(userObject.getString("login"));
-                        userData.setDetailUrl(userObject.getString("url"));
-                        userData.setAvatarUrl(userObject.getString("avatar_url"));
-                        userData.setHtmlUrl(userObject.getString("html_url"));
-                        list.add(userData);
-                    }
-                    listUser.postValue(list);
-                } catch (JSONException e) {
-                    Log.d("JSONException", e.getMessage());
-                }
-
+            public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response) {
+                listUser.postValue(response.body());
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                String errorMessage;
+            public void onFailure(Call<ArrayList<User>> call, Throwable t) {
 
-                switch (statusCode) {
-                    case 401:
-                        errorMessage = statusCode + " : Bad Request";
-                        break;
-                    case 403:
-                        errorMessage = statusCode + " : Forbidden";
-                        break;
-                    case 404:
-                        errorMessage = statusCode + " : Not Found";
-                        break;
-                    default:
-                        errorMessage = statusCode + " : " + error.getMessage();
-                        break;
-                }
-                Log.d("onFailure SearchUser : ", errorMessage);
             }
         });
     }

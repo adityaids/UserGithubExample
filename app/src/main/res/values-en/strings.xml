@@ -9,7 +9,19 @@
     <string name="url">URL</string>
     <string name="detail">Detail</string>
     <string name="user_not_found">User not found</string>
-    <string name="language">Bahasa</string>
+    <string name="language">Change Language</string>
     <string name="favorit">Favorit</string>
-    <string name="notification">user github just add an user into favorit list</string>
+    <string name="notification_reminder">user github just add an user into favorit list</string>
+    <string name="added_new_feature">I have added new feature on this app</string>
+    <string name="let_me_show_you">Let me show you</string>
+    <string name="swipe_menu">Swipe to the left to see the button</string>
+    <string name="klik_favorit_button">Press the red heart icon to add the user into favorit list</string>
+    <string name="klik_favorit_menu">Press the favorit menu icon to see list user you have added</string>
+    <string name="check_new">Lets check new user</string>
+    <string name="anda_belum_menambahkan_pengguna_ke_favorit">You havent added user into favorit</string>
+    <string name="is_added">User added into favorit</string>
+    <string name="is_remove">User remove from favorit</string>
+    <string name="notif_on">Turn on Notification</string>
+    <string name="notif_off">Turn off Notification</string>
+    <string name="notification">Notification</string>
 </resources>

@@ -15,7 +15,7 @@ class PagerAdapter extends FragmentPagerAdapter {
     private Context mContext;
     private String mUserName;
 
-    public PagerAdapter(@NonNull FragmentManager fm, Context context, String username) {
+    PagerAdapter(@NonNull FragmentManager fm, Context context, String username) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mContext = context;
         mUserName = username;

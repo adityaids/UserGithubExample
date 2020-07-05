@@ -3,15 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/change_language"
-        android:title="@string/language"
-        android:icon="@drawable/ic_settings_white"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/favorit_menu"
         android:title="@string/favorit"
         android:icon="@drawable/ic_favorite_border"
         app:showAsAction="always"/>
-
+    <item
+        android:id="@+id/setting_menu"
+        android:title="@string/language"
+        android:icon="@drawable/ic_settings_white"
+        app:showAsAction="always" />
 </menu>

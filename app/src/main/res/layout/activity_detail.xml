@@ -1,114 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.DetailActivity">
 
-    <View
-        android:id="@+id/bg"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:translationY="-310dp"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/bg_poster" />
+        android:background="@color/colorsecondary">
 
-    <RelativeLayout
-        android:id="@+id/container_relative"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:alpha="0">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/img_detail"
-            android:layout_width="126dp"
-            android:layout_height="126dp"
-            android:layout_marginTop="16dp"
-            android:layout_centerHorizontal="true"
-            tools:src="@android:color/black" />
-
-        <TextView
-            android:id="@+id/tv_username_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/img_detail"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="6dp"
-            android:text="@string/user"
-            android:textColor="@android:color/white"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_user_url_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_username_detail"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="8dp"
-            android:text="@string/url"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
-
-        <LinearLayout
-            android:id="@+id/container"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_user_url_detail"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="8dp"
-            android:padding="8dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleGravity="top"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-            <TextView
-                android:id="@+id/tv_company_detail"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/container_relative"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="2"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"
-                android:layout_weight="0.5"
-                android:textSize="16sp"
-                tools:text="company" />
+                android:alpha="0">
 
-            <TextView
-                android:id="@+id/tv_location_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="2"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"
-                android:layout_weight="0.5"
-                android:textSize="16sp"
-                tools:text="location" />
-        </LinearLayout>
+                <View
+                    android:id="@+id/bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:translationY="-310dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@drawable/bg_poster" />
 
-        <TextView
-            android:id="@+id/tv_repository_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/container"
-            android:layout_centerHorizontal="true"
-            android:textAlignment="center"
-            android:ems="12"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            tools:text="repository" />
-    </RelativeLayout>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_detail"
+                    android:layout_width="126dp"
+                    android:layout_height="126dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_centerHorizontal="true"
+                    tools:src="@android:color/black" />
 
+                <TextView
+                    android:id="@+id/tv_username_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/img_detail"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="6dp"
+                    android:text="@string/user"
+                    android:textColor="@android:color/white"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_user_url_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_username_detail"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/url"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:id="@+id/container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_user_url_detail"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="8dp"
+                    android:padding="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_company_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="2"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/white"
+                        android:layout_weight="0.5"
+                        android:textSize="16sp"
+                        tools:text="company" />
+
+                    <TextView
+                        android:id="@+id/tv_location_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="2"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/white"
+                        android:layout_weight="0.5"
+                        android:textSize="16sp"
+                        tools:text="location" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_repository_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/container"
+                    android:layout_centerHorizontal="true"
+                    android:textAlignment="center"
+                    android:ems="12"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    tools:text="repository" />
+            </RelativeLayout>
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"/>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="2dp"
-        android:layout_below="@+id/container_relative">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_host"
@@ -120,4 +138,4 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
