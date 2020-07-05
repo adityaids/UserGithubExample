@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
@@ -25,14 +24,14 @@ public class ReminderBroadcast extends BroadcastReceiver {
 
     private final String EXTRA_TITLE = "extra_title";
     private final String EXTRA_MESSAGE = "extra_message";
-    int notifId = 100;
+    private final int notifId = 100;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         String title = intent.getStringExtra(EXTRA_TITLE);
         String message = intent.getStringExtra(EXTRA_MESSAGE);
 
-        showNotification(context,title, message, notifId);
+        showNotification(context,title, message);
     }
 
     public void setReminder(Context context, String title, String message) {
@@ -65,7 +64,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
         }
     }
 
-    public void showNotification(Context context, String title, String message, int notifId){
+    private void showNotification(Context context, String title, String message){
         String CHANNEL_ID = "channel_1";
         String CHANNEL_NAME = "reminder_channel";
 

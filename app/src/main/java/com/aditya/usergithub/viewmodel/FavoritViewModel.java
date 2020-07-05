@@ -10,13 +10,12 @@ import com.aditya.usergithub.db.FavoritDao;
 import com.aditya.usergithub.db.FavoritDatabase;
 import com.aditya.usergithub.model.FavoritModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FavoritViewModel extends AndroidViewModel {
 
-    private FavoritDao mFavoritDao;
-    private LiveData<List<FavoritModel>> mAllFavorit;
+    private final FavoritDao mFavoritDao;
+    private final LiveData<List<FavoritModel>> mAllFavorit;
 
     public FavoritViewModel(@NonNull Application application) {
         super(application);
@@ -34,5 +33,9 @@ public class FavoritViewModel extends AndroidViewModel {
         FavoritModel favoritModel = mAllFavorit.getValue().get(position);
         FavoritDatabase.databaseWriteExecutor.execute(()->
                 mFavoritDao.delete(favoritModel));
+    }
+
+    public String getFavoritUsername(int position) {
+        return mAllFavorit.getValue().get(position).getNama();
     }
 }

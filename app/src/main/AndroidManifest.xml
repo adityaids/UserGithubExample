@@ -18,7 +18,7 @@
         <receiver
             android:name=".broadcast.ReminderBroadcast"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true"/>
 
         <provider
             android:name=".provider.FavoritProvider"

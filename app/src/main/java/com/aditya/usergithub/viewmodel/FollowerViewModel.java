@@ -1,7 +1,5 @@
 package com.aditya.usergithub.viewmodel;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -9,8 +7,8 @@ import androidx.lifecycle.ViewModel;
 import com.aditya.usergithub.api.ApiService;
 import com.aditya.usergithub.model.User;
 
-
 import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

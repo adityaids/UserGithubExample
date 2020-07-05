@@ -1,5 +1,10 @@
 package com.aditya.githubconsumer;
 
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.BaseColumns;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,15 +14,10 @@ import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.BaseColumns;
-
 public class MainActivity extends AppCompatActivity {
 
-    public static final Uri URI = Uri.parse("content://com.aditya.usergithub/favorit");
-    public static final String COLUMN_ID = BaseColumns._ID;
+    private final Uri URI = Uri.parse("content://com.aditya.usergithub/favorit");
+    private final String COLUMN_ID = BaseColumns._ID;
     public static final String COLUMN_NAME = "nama";
     public static final String COLUMN_AVATAR = "avatar";
     public static final String COLUMN_URL = "url";

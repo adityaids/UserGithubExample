@@ -1,15 +1,14 @@
 package com.aditya.usergithub.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.aditya.usergithub.R;
 import com.aditya.usergithub.broadcast.ReminderBroadcast;
@@ -18,8 +17,8 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class SettingActivity extends AppCompatActivity {
 
-    Button btnLanguage;
-    SwitchMaterial switchReminder;
+    private Button btnLanguage;
+    private SwitchMaterial switchReminder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -14,6 +14,7 @@ import com.aditya.usergithub.model.FavoritModel;
 import com.aditya.usergithub.model.User;
 import com.aditya.usergithub.model.UserDetail;
 import com.aditya.usergithub.model.UserList;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class MainViewModel extends AndroidViewModel {
 
     private MutableLiveData<ArrayList<User>> listUser = new MutableLiveData<>();
     private MutableLiveData<UserDetail> userDetailModel = new MutableLiveData<>();
-    private String url = "https://api.github.com/search/";
+    private final String url = "https://api.github.com/search/";
     private FavoritDao mFavoritDao;
     private FavoritDatabase db;
     private LiveData<List<FavoritModel>> favorit;
@@ -92,42 +93,30 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     public void insert(int position) {
-        ArrayList<User> userArrayList = new ArrayList<>();
         if (listUser.getValue() != null) {
-            userArrayList.addAll(listUser.getValue());
-            FavoritModel favoritModel = new FavoritModel(userArrayList.get(position).getUserName(),
-                    userArrayList.get(position).getAvatarUrl(),
-                    userArrayList.get(position).getDetailUrl(),
-                    userArrayList.get(position).isFavorited());
-            if (!userArrayList.get(position).isFavorited()) {
-                FavoritDatabase.databaseWriteExecutor.execute(()->
-                        mFavoritDao.insert(favoritModel));
-                userArrayList.get(position).setFavorited(true);
-            }
+            FavoritModel favoritModel = new FavoritModel(listUser.getValue().get(position).getUserName(),
+                    listUser.getValue().get(position).getAvatarUrl(),
+                    listUser.getValue().get(position).getDetailUrl(),
+                    listUser.getValue().get(position).isFavorited());
+            FavoritDatabase.databaseWriteExecutor.execute(()->
+                    mFavoritDao.insert(favoritModel));
+            listUser.getValue().get(position).setFavorited(true);
         }
-        listUser.postValue(userArrayList);
     }
 
     public void delete(int position) {
-        ArrayList<User> userArrayList = new ArrayList<>();
-        if (listUser.getValue() != null) {
-            userArrayList.addAll(listUser.getValue());
-            int index = favoritIndex(userArrayList.get(position).getUserName());
-            FavoritModel favoritModel = favorit.getValue().get(index);
-            if (userArrayList.get(position).isFavorited()) {
-                FavoritDatabase.databaseWriteExecutor.execute(()->
-                        mFavoritDao.delete(favoritModel));
-                userArrayList.get(position).setFavorited(false);
-            }
+        if (favoritModels != null) {
+            int index = favoritIndex(listUser.getValue().get(position).getUserName());
+            FavoritModel favoritModel = favoritModels.get(index);
+            FavoritDatabase.databaseWriteExecutor.execute(()->
+                    mFavoritDao.delete(favoritModel));
+            listUser.getValue().get(position).setFavorited(false);
         }
-        listUser.postValue(userArrayList);
     }
 
     private int favoritIndex(String value) {
-        ArrayList<User> userArrayList = new ArrayList<>();
         if (listUser.getValue() != null) {
-            userArrayList.addAll(listUser.getValue());
-            for (int index = 0; index < favorit.getValue().size(); index++) {
+            for (int index = 0; index < favoritModels.size(); index++) {
                 if (favorit.getValue().get(index).getNama().equals(value)) {
                     return index;
                 }
@@ -137,36 +126,34 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     public boolean checkFavorit(int position) {
-        ArrayList<User> userArrayList = new ArrayList<>();
         boolean isFavorit = false;
         if (listUser.getValue() != null) {
-            userArrayList.addAll(listUser.getValue());
-            isFavorit = userArrayList.get(position).isFavorited();
+            isFavorit = listUser.getValue().get(position).isFavorited();
         }
         return isFavorit;
     }
 
     private void check(ArrayList<User> users) {
-        boolean isFavorited;
-        ArrayList<User> userArrayList = new ArrayList<>();
-        for (int i = 0; i < users.size(); i++ ) {
-            String username = users.get(i).getUserName();
-            for (int j = 0; j < favoritModels.size(); j++) {
-                if (favoritModels.get(j).getNama().equals(username)) {
-                    isFavorited = true;
-                    users.get(i).setFavorited(isFavorited);
-                } else {
-                    isFavorited = false;
-                    users.get(i).setFavorited(isFavorited);
+        if (favoritModels.isEmpty()) {
+            for (int i = 0; i < users.size(); i++) {
+                users.get(i).setFavorited(false);
+            }
+            listUser.setValue(users);
+        } else {
+            for (int i = 0; i < users.size(); i++ ) {
+                String username = users.get(i).getUserName();
+                for (int j = 0; j < favoritModels.size(); j++) {
+                    if (favoritModels.get(j).getNama().equals(username)) {
+                        users.get(i).setFavorited(true);
+                    }
                 }
             }
-            userArrayList.add(users.get(i));
+            listUser.setValue(users);
         }
-        listUser.postValue(userArrayList);
     }
 
     public void setFavoritModel(List<FavoritModel> favoritModel) {
-        this.favoritModels = favoritModel;
+        favoritModels = favoritModel;
     }
 
     public LiveData<ArrayList<User>> getListUser() {

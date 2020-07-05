@@ -11,10 +11,7 @@ import androidx.room.Query;
 
 import com.aditya.usergithub.model.FavoritModel;
 
-import java.lang.reflect.Member;
 import java.util.List;
-
-import static com.aditya.usergithub.model.FavoritModel.COLUMN_NAME;
 
 @Dao
 public interface FavoritDao {

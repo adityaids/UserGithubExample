@@ -3,8 +3,6 @@ package com.aditya.usergithub.view;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aditya.usergithub.R;
 import com.aditya.usergithub.model.User;
 import com.bumptech.glide.Glide;
-import com.takusemba.spotlight.SimpleTarget;
-import com.takusemba.spotlight.Spotlight;
 
 import java.util.ArrayList;
 
@@ -28,6 +24,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     void setData(ArrayList<User> items) {
         listUsers.clear();
         listUsers.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    void onFavoritChange(String username) {
+        for (int i = 0; i < listUsers.size(); i++) {
+            if (listUsers.get(i).getUserName().equals(username)) {
+                listUsers.get(i).setFavorited(false);
+            }
+        }
         notifyDataSetChanged();
     }
 

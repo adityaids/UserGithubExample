@@ -10,11 +10,11 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = FavoritModel.TABLE_NAME)
 public class FavoritModel {
     public static final String TABLE_NAME = "favorit";
-    public static final String COLUMN_ID = BaseColumns._ID;
-    public static final String COLUMN_NAME = "nama";
-    public static final String COLUMN_AVATAR = "avatar";
-    public static final String COLUMN_URL = "url";
-    public static final String COLUMN_FAVORIT = "favorit";
+    private static final String COLUMN_ID = BaseColumns._ID;
+    private static final String COLUMN_NAME = "nama";
+    private static final String COLUMN_AVATAR = "avatar";
+    private static final String COLUMN_URL = "url";
+    private static final String COLUMN_FAVORIT = "favorit";
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(index = true, name = COLUMN_ID)

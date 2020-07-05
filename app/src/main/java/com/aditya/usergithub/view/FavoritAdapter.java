@@ -57,10 +57,10 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
 
     class FavoritViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvNama;
-        TextView tvUrl;
-        ImageView imgAvatar;
-        Button btn;
+        private TextView tvNama;
+        private TextView tvUrl;
+        private ImageView imgAvatar;
+        private Button btn;
 
         FavoritViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -29,7 +29,7 @@ public class FollowerFragment extends Fragment {
     private ProgressBar pgsBar;
     private UserAdapter userAdapter;
 
-    static FollowerFragment newInstance(String username) {
+    public static FollowerFragment newInstance(String username) {
         FollowerFragment fragment = new FollowerFragment();
         Bundle bundle = new Bundle();
         bundle.putString(DetailActivity.ARG_USERNAME, username);

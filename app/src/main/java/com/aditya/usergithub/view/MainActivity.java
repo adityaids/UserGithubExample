@@ -2,28 +2,23 @@ package com.aditya.usergithub.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.aditya.usergithub.R;
 import com.aditya.usergithub.broadcast.ReminderBroadcast;
 import com.aditya.usergithub.model.FavoritModel;
@@ -33,7 +28,6 @@ import com.aditya.usergithub.preference.AppPreference;
 import com.aditya.usergithub.viewmodel.MainViewModel;
 import com.google.android.material.snackbar.Snackbar;
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener;
-import com.takusemba.spotlight.CustomTarget;
 import com.takusemba.spotlight.SimpleTarget;
 import com.takusemba.spotlight.Spotlight;
 
@@ -48,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel mainViewModel;
     private UserAdapter userAdapter;
     private RecyclerTouchListener onTouchListener;
+    private final int REQUEST_CODE = 111;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,9 +79,11 @@ public class MainActivity extends AppCompatActivity {
                             if (!isFavorited) {
                                 mainViewModel.insert(position);
                                 showSnackBarMessage(getString(R.string.is_added));
+                                userAdapter.notifyDataSetChanged();
                             } else {
                                 mainViewModel.delete(position);
                                 showSnackBarMessage(getString(R.string.is_remove));
+                                userAdapter.notifyDataSetChanged();
                             }
                         }
                     }
@@ -225,10 +222,26 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.favorit_menu:
                 intent = new Intent(MainActivity.this, FavoritActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE);
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == FavoritActivity.RESULT_CODE) {
+                ArrayList<String> username;
+                if (data != null) {
+                    username = data.getStringArrayListExtra(FavoritActivity.EXTRA_USERNAME);
+                    for (int i = 0; i < username.size(); i++) {
+                        userAdapter.onFavoritChange(username.get(i));
+                    }
+                }
+            }
+        }
     }
 
     @Override

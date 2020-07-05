@@ -1,28 +1,25 @@
 package com.aditya.usergithub.view;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-import android.view.View;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.aditya.usergithub.R;
-import com.aditya.usergithub.broadcast.ReminderBroadcast;
 import com.aditya.usergithub.model.FavoritModel;
 import com.aditya.usergithub.preference.AppPreference;
 import com.aditya.usergithub.viewmodel.FavoritViewModel;
-import com.aditya.usergithub.viewmodel.MainViewModel;
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener;
 import com.takusemba.spotlight.SimpleTarget;
 import com.takusemba.spotlight.Spotlight;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +29,10 @@ public class FavoritActivity extends AppCompatActivity {
     private RecyclerView rv;
     private RecyclerTouchListener onTouchListener;
     private FavoritViewModel favoritViewModel;
+    public static final int RESULT_CODE = 101;
+    public static final String EXTRA_USERNAME = "extra_username";
+    private Intent resultIntent;
+    private ArrayList<String> userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,9 @@ public class FavoritActivity extends AppCompatActivity {
         favoritAdapter.notifyDataSetChanged();
         rv.setAdapter(favoritAdapter);
 
+        resultIntent = new Intent();
+        userName = new ArrayList<>();
+
         favoritViewModel = new ViewModelProvider(this).get(FavoritViewModel.class);
 
         onTouchListener = new RecyclerTouchListener(this, rv);
@@ -54,6 +58,9 @@ public class FavoritActivity extends AppCompatActivity {
                     @Override
                     public void onSwipeOptionClicked(int viewID, int position) {
                         if (viewID == R.id.swipe_favorit) {
+                            userName.add(favoritViewModel.getFavoritUsername(position));
+                            resultIntent.putStringArrayListExtra(EXTRA_USERNAME, userName);
+                            setResult(RESULT_CODE, resultIntent);
                             favoritViewModel.delete(position);
                         }
                     }
@@ -113,5 +120,13 @@ public class FavoritActivity extends AppCompatActivity {
                 .setAnimation(new DecelerateInterpolator(2f))
                 .setTargets(simpleTarget, simpleTarget1)
                 .start();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (!userName.isEmpty()) {
+            finish();
+        }
     }
 }

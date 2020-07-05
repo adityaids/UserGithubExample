@@ -13,8 +13,8 @@ import com.aditya.usergithub.model.FavoritModel;
 
 public class FavoritProvider extends ContentProvider {
 
-    public static final String AUTHORITY = "com.aditya.usergithub";
-    public static final int REQUEST_CODE = 1;
+    private static final String AUTHORITY = "com.aditya.usergithub";
+    private static final int REQUEST_CODE = 1;
 
     public static final Uri URI_NOTE = Uri.parse("content://" + AUTHORITY + "/" + FavoritModel.TABLE_NAME);
     private static final UriMatcher mUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
