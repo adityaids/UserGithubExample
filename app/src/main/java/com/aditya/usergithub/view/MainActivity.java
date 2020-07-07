@@ -70,11 +70,11 @@ public class MainActivity extends AppCompatActivity {
 
         onTouchListener = new RecyclerTouchListener(this, rv);
         onTouchListener
-                .setSwipeOptionViews(R.id.swipe_favorit)
+                .setSwipeOptionViews(R.id.btn_favorit)
                 .setSwipeable(R.id.fg, R.id.bg, new RecyclerTouchListener.OnSwipeOptionsClickListener() {
                     @Override
                     public void onSwipeOptionClicked(int viewID, int position) {
-                        if (viewID == R.id.swipe_favorit) {
+                        if (viewID == R.id.btn_favorit) {
                             boolean isFavorited = mainViewModel.checkFavorit(position);
                             if (!isFavorited) {
                                 mainViewModel.insert(position);
